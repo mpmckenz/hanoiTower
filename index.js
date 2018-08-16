@@ -7,6 +7,7 @@ const disk3 = document.createElement("div")
 const disk4 = document.createElement("div")
 const diskHolder = document.getElementById("heldDisk")
 
+// Arrays
 const diskArr = [disk1, disk2, disk3, disk4]
 
 const towerArr = [tower1, tower2, tower3]
@@ -47,13 +48,9 @@ function start() {
 function click(event) {
     let tower = event.currentTarget
     if (heldDisk !== null) {
-
         let topdisk = tower.lastElementChild
         if (topdisk !== null) {
-            console.log("width:", topdisk.dataset.width)
             if (parseInt(topdisk.dataset.width) > parseInt(heldDisk.dataset.width)) {
-                console.log("width:", heldDisk.dataset.width)
-
                 tower.appendChild(heldDisk)
                 heldDisk = null;
             }
@@ -62,13 +59,12 @@ function click(event) {
             tower.appendChild(heldDisk)
             heldDisk = null
         }
-
     }
     else {
         heldDisk = tower.lastElementChild;
         if (heldDisk != null) {
             diskHolder.appendChild(heldDisk)
-            }
+        }
     }
 }
 
