@@ -1,5 +1,5 @@
 .tower {
-    height: 90px;
+    height: 100px;
     width: 90px;
     display: inline-flex;
     flex-direction: column-reverse;
@@ -7,7 +7,7 @@
 }
 
 #tower1 {
-    background-color: blue;
+    background-color: aqua;
 }
 
 #tower2 {
