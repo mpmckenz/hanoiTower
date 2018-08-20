@@ -14,13 +14,6 @@ const towerArr = [tower1, tower2, tower3]
 
 let heldDisk = null
 
-// const disk1Node = document.getElementById("disk1")
-// const disk1 = {
-//     node: disk1Node;
-//     value: 90;
-// }
-// disk1Node.style.width = disk1.value + "%";
-
 function initdisks() {
     for (let diskIndex in diskArr) {
         const disk = diskArr[diskIndex]
@@ -28,47 +21,57 @@ function initdisks() {
         const classList = disk.classList
         classList.add("disk")
 
-        const id = "disk" + (parseInt(diskIndex) + 1)
+        const id = "disk" + (Number(diskIndex) + 1)
         disk.id = id;
     }
 }
 
-function inittower() {
+function inittowers() {
     for (let tower of towerArr) {
         tower.onclick = click;
     }
 }
 
-function start() {
+function populateTower1() {
     for (let disk of diskArr) {
         tower1.appendChild(disk)
     }
 }
 // Determine if disk is held or to pick up
 function click(event) {
-    let tower = event.currentTarget
-    if (heldDisk !== null) {
-        let topdisk = tower.lastElementChild
-        if (topdisk !== null) {
-            if (parseInt(topdisk.dataset.width) > parseInt(heldDisk.dataset.width)) {
-                tower.appendChild(heldDisk)
-                heldDisk = null;
-            }
+    const tower = event.currentTarget
+    if (heldDisk) {
+        let topdisk = tower.lastElementChild;
+        const isEmptyTower = !topdisk;
+        const canStack = topdisk && (Number(topdisk.dataset.width) > Number(heldDisk.dataset.width));
+        if (isEmptyTower || canStack) {
+            appendDiskToTower(heldDisk, tower);
         }
-        else {
-            tower.appendChild(heldDisk)
-            heldDisk = null
-        }
-    }
-    else {
+    } else {
         heldDisk = tower.lastElementChild;
-        if (heldDisk != null) {
+        if (heldDisk) {
             diskHolder.appendChild(heldDisk)
         }
     }
 }
 
+function appendDiskToTower(disk, tower) {
+    tower.appendChild(disk);
+    heldDisk = null;
+    if (checkForWin()) {
+        celebrate();
+        console.log("WIN!");
+    }
+}
+
+function checkForWin() {
+    return tower3.childElementCount === 4;
+}
+
+function celebrate() {
+    document.body.appendChild(document.createTextNode("VICTORY"));
+}
 
 initdisks();
-start();
-inittower();
+inittowers();
+populateTower1();
